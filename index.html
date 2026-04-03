@@ -1,0 +1,1467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pratham Gour | International Business Development</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0a0f;
+    --cream: #f5f0e8;
+    --gold: #c9a84c;
+    --gold-light: #e8cc7a;
+    --rust: #c44b1e;
+    --slate: #2a2a3a;
+    --muted: #7a7a8a;
+    --card-bg: #12121c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ink);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed;
+    width: 10px; height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.25s ease;
+    mix-blend-mode: difference;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4rem;
+    background: linear-gradient(to bottom, rgba(10,10,15,0.95), transparent);
+    backdrop-filter: blur(2px);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+  }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.3s, color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--gold); }
+  .nav-links a:hover::after { width: 100%; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 4rem 4rem 4rem;
+    position: relative;
+  }
+
+  .hero-tag {
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.3s forwards;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 40px; height: 1px;
+    background: var(--gold);
+  }
+
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 6vw, 6rem);
+    line-height: 1.0;
+    font-weight: 900;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s forwards;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(1.2rem, 2vw, 1.6rem);
+    letter-spacing: 0.25em;
+    color: var(--muted);
+    margin-top: 1.2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.7s forwards;
+  }
+
+  .hero-desc {
+    margin-top: 2rem;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: rgba(245,240,232,0.65);
+    max-width: 440px;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s forwards;
+  }
+
+  .hero-ctas {
+    margin-top: 3rem;
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 1.1s forwards;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.9rem 2.2rem;
+    background: var(--gold);
+    color: var(--ink);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--rust);
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+  }
+  .btn-primary:hover::before { transform: translateX(0); }
+  .btn-primary span { position: relative; z-index: 1; }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.9rem 2.2rem;
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    cursor: pointer;
+    background: transparent;
+  }
+  .btn-outline:hover {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.08);
+  }
+
+  /* HERO RIGHT - PHOTO */
+  .hero-right {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8rem 4rem 4rem 2rem;
+    position: relative;
+  }
+
+  .photo-frame {
+    position: relative;
+    width: 380px;
+    height: 480px;
+    opacity: 0;
+    animation: fadeIn 1s 0.8s forwards;
+  }
+
+  .photo-frame::before {
+    content: '';
+    position: absolute;
+    top: 20px; right: -20px;
+    width: 100%; height: 100%;
+    border: 1px solid var(--gold);
+    opacity: 0.3;
+    z-index: 0;
+  }
+
+  .photo-frame::after {
+    content: 'MBA · INTERNATIONAL BUSINESS · LPU';
+    position: absolute;
+    bottom: -40px;
+    left: 0;
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--muted);
+  }
+
+  .photo-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--card-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .photo-inner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: none;
+  }
+
+  .photo-inner img.loaded { display: block; }
+
+  .photo-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: opacity 0.3s;
+  }
+  .photo-placeholder:hover { opacity: 0.8; }
+
+  .upload-icon {
+    width: 64px; height: 64px;
+    border: 2px dashed var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .upload-icon svg { width: 28px; height: 28px; stroke: var(--gold); fill: none; }
+
+  .photo-placeholder p {
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .photo-placeholder small {
+    font-size: 0.68rem;
+    color: rgba(122,122,138,0.6);
+    letter-spacing: 0.1em;
+  }
+
+  #photoInput { display: none; }
+
+  /* HERO SCROLL */
+  .scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeIn 1s 1.5s forwards;
+  }
+  .scroll-indicator span {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollDown 1.5s ease-in-out infinite;
+  }
+
+  /* DIAGONAL DIVIDER */
+  .divider {
+    width: 100%;
+    height: 60px;
+    background: linear-gradient(135deg, var(--ink) 49.5%, var(--card-bg) 50%);
+  }
+
+  /* SECTIONS GENERAL */
+  section { position: relative; }
+
+  .section-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    max-width: 80px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.4;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 4vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  /* ABOUT */
+  #about {
+    background: var(--card-bg);
+    padding: 7rem 4rem;
+  }
+
+  .about-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .stat-box {
+    padding: 1.8rem;
+    border: 1px solid rgba(201,168,76,0.15);
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .stat-box::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--gold);
+    transition: width 0.4s ease;
+  }
+  .stat-box:hover { border-color: rgba(201,168,76,0.4); }
+  .stat-box:hover::before { width: 100%; }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.8rem;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.4rem;
+  }
+
+  .about-text {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: rgba(245,240,232,0.7);
+    margin-top: 2rem;
+  }
+
+  .about-right {}
+
+  .skills-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+
+  .skill-tag {
+    padding: 0.45rem 1rem;
+    border: 1px solid rgba(201,168,76,0.2);
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cream);
+    opacity: 0.8;
+    transition: all 0.3s;
+    cursor: default;
+  }
+  .skill-tag:hover {
+    background: rgba(201,168,76,0.1);
+    border-color: var(--gold);
+    color: var(--gold);
+    opacity: 1;
+  }
+
+  /* EXPERIENCE */
+  #experience {
+    background: var(--ink);
+    padding: 7rem 4rem;
+  }
+
+  .exp-container { max-width: 1200px; margin: 0 auto; }
+
+  .exp-header { margin-bottom: 4rem; }
+
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    opacity: 0.3;
+  }
+
+  .timeline-item {
+    position: relative;
+    padding: 0 0 3.5rem 3rem;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.6s ease;
+  }
+  .timeline-item.visible { opacity: 1; transform: translateX(0); }
+
+  .timeline-dot {
+    position: absolute;
+    left: -6px; top: 6px;
+    width: 13px; height: 13px;
+    background: var(--gold);
+    border-radius: 50%;
+    border: 2px solid var(--ink);
+  }
+
+  .timeline-meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .timeline-date {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: rgba(201,168,76,0.08);
+    padding: 0.3rem 0.8rem;
+    border: 1px solid rgba(201,168,76,0.2);
+  }
+
+  .timeline-company {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .timeline-role {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .timeline-points { list-style: none; }
+  .timeline-points li {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: rgba(245,240,232,0.65);
+    padding: 0.3rem 0;
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+  }
+  .timeline-points li::before {
+    content: '→';
+    color: var(--gold);
+    flex-shrink: 0;
+    margin-top: 0.05rem;
+  }
+
+  .timeline-skills {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  .tskill {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.7rem;
+    background: rgba(201,168,76,0.08);
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.15);
+  }
+
+  /* PROJECTS */
+  #projects {
+    background: var(--card-bg);
+    padding: 7rem 4rem;
+  }
+
+  .proj-container { max-width: 1200px; margin: 0 auto; }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2rem;
+    margin-top: 4rem;
+  }
+
+  .project-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(201,168,76,0.1);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .project-card.visible { opacity: 1; transform: translateY(0); }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--gold), var(--rust));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .project-card:hover::before { transform: scaleX(1); }
+  .project-card:hover { border-color: rgba(201,168,76,0.3); transform: translateY(-4px); }
+
+  .proj-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    color: rgba(201,168,76,0.08);
+    line-height: 1;
+    margin-bottom: -0.5rem;
+  }
+
+  .proj-icon {
+    font-size: 1.8rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .proj-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .proj-tech {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+  }
+
+  .proj-desc {
+    font-size: 0.88rem;
+    line-height: 1.75;
+    color: rgba(245,240,232,0.6);
+  }
+
+  .proj-highlight {
+    margin-top: 1.5rem;
+    padding: 1rem 1.2rem;
+    background: rgba(201,168,76,0.06);
+    border-left: 2px solid var(--gold);
+    font-size: 0.85rem;
+    color: var(--gold-light);
+  }
+
+  /* CERTIFICATIONS */
+  #certifications {
+    background: var(--ink);
+    padding: 7rem 4rem;
+  }
+
+  .cert-container { max-width: 1200px; margin: 0 auto; }
+
+  .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 4rem;
+  }
+
+  .cert-card {
+    padding: 2rem;
+    border: 1px solid rgba(201,168,76,0.12);
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    transition: all 0.3s;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .cert-card.visible { opacity: 1; transform: translateY(0); }
+  .cert-card:hover { border-color: rgba(201,168,76,0.35); background: rgba(201,168,76,0.04); }
+
+  .cert-badge {
+    width: 48px; height: 48px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+
+  .cert-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.3rem;
+  }
+
+  .cert-meta {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* EDUCATION */
+  #education {
+    background: var(--card-bg);
+    padding: 7rem 4rem;
+  }
+
+  .edu-container { max-width: 1200px; margin: 0 auto; }
+
+  .edu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 4rem;
+  }
+
+  .edu-card {
+    padding: 2.5rem;
+    border: 1px solid rgba(201,168,76,0.12);
+    position: relative;
+    transition: all 0.3s;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .edu-card.visible { opacity: 1; transform: translateY(0); }
+  .edu-card:hover { border-color: rgba(201,168,76,0.3); }
+
+  .edu-degree {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    margin-bottom: 0.8rem;
+  }
+
+  .edu-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+  }
+
+  .edu-uni {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .edu-year {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(201,168,76,0.6);
+  }
+
+  .edu-tag {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.3rem 0.8rem;
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.2);
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* CONTACT */
+  #contact {
+    background: var(--ink);
+    padding: 7rem 4rem;
+    text-align: center;
+  }
+
+  .contact-container { max-width: 700px; margin: 0 auto; }
+
+  .contact-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 3rem;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 1rem 1.8rem;
+    border: 1px solid rgba(201,168,76,0.2);
+    color: var(--cream);
+    text-decoration: none;
+    font-size: 0.8rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: all 0.3s;
+  }
+  .contact-link:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: rgba(201,168,76,0.06);
+  }
+  .contact-link svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.5; }
+
+  /* FOOTER */
+  footer {
+    background: var(--card-bg);
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(201,168,76,0.1);
+  }
+
+  footer p {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.08); opacity: 0.7; }
+  }
+
+  @keyframes scrollDown {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* FLOATING GOLD PARTICLES */
+  .particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: var(--gold);
+    border-radius: 50%;
+    opacity: 0;
+    animation: float var(--dur) var(--delay) ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0% { opacity: 0; transform: translateY(0) scale(0); }
+    20% { opacity: 0.5; }
+    80% { opacity: 0.5; }
+    100% { opacity: 0; transform: translateY(-120px) scale(1.5); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 2rem; }
+    .nav-links { display: none; }
+    #hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 7rem 2rem 4rem; }
+    .about-grid, .edu-grid { grid-template-columns: 1fr; }
+    #about, #experience, #projects, #certifications, #education, #contact {
+      padding: 5rem 2rem;
+    }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+
+  /* SCROLL REVEAL BASE */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* LANGUAGE BAR */
+  .lang-bar {
+    margin-top: 2rem;
+  }
+  .lang-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .lang-name {
+    font-size: 0.78rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    width: 80px;
+    flex-shrink: 0;
+    color: var(--cream);
+  }
+  .lang-track {
+    flex: 1;
+    height: 2px;
+    background: rgba(255,255,255,0.1);
+    position: relative;
+  }
+  .lang-fill {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    transition: width 1s ease;
+    width: 0;
+  }
+  .lang-level {
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    width: 70px;
+    text-align: right;
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">PG</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certifications">Certs</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="particles" id="particles"></div>
+
+  <div class="hero-left">
+    <div class="hero-tag">MBA · International Business</div>
+    <h1 class="hero-name">Pratham<br><em>Gour</em></h1>
+    <div class="hero-title">Business Development · Marketing Strategist</div>
+    <p class="hero-desc">
+      Driving revenue growth and building lasting client relationships through strategic planning, data-driven insights, and effective communication across global markets.
+    </p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn-primary"><span>Get in Touch</span></a>
+      <button class="btn-outline" onclick="downloadCV()">↓ Download CV</button>
+    </div>
+  </div>
+
+  <div class="hero-right">
+  <div class="photo-frame">
+    <div class="photo-inner" id="photoContainer">
+      
+      <!-- Direct Photo -->
+      <img id="photoImg" src="1775227644304.jpeg" alt="Pratham Gour" style="width:100%; height:100%; object-fit:cover; display:block;">
+      
+    </div>
+  </div>
+</div>
+
+  <div class="scroll-indicator">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-left">
+      <div class="reveal">
+        <div class="section-label">Who I Am</div>
+        <h2 class="section-title">Results-<em>driven</em><br>Professional</h2>
+        <p class="about-text">
+          As a dedicated Business Development Executive and Marketing Strategist, I bring practical experience in lead generation, team coordination, and operational management. I strive to deliver measurable business outcomes and innovative market solutions, with a vision to grow as an International Business Development Lead.
+        </p>
+      </div>
+      <div class="about-stats reveal">
+        <div class="stat-box">
+          <div class="stat-num">18+</div>
+          <div class="stat-label">Months Sales Experience</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">₹3.6K</div>
+          <div class="stat-label">Net Profit · Live Project</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">9.9K+</div>
+          <div class="stat-label">Retail Records Analyzed</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">45</div>
+          <div class="stat-label">Stores ML Forecasted</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-right reveal">
+      <div class="section-label">Core Skills</div>
+      <div class="skills-cloud">
+        <span class="skill-tag">Brand Management</span>
+        <span class="skill-tag">Lead Generation</span>
+        <span class="skill-tag">CRM</span>
+        <span class="skill-tag">International Marketing</span>
+        <span class="skill-tag">Sales & Negotiation</span>
+        <span class="skill-tag">Market Research</span>
+        <span class="skill-tag">Python · Pandas</span>
+        <span class="skill-tag">Machine Learning</span>
+        <span class="skill-tag">Excel · Power Query</span>
+        <span class="skill-tag">Data Modelling</span>
+        <span class="skill-tag">Predictive Analytics</span>
+        <span class="skill-tag">BI Dashboards</span>
+        <span class="skill-tag">Canva</span>
+        <span class="skill-tag">Google Sheets</span>
+      </div>
+
+      <div class="lang-bar" style="margin-top:2.5rem;">
+        <div class="section-label" style="margin-bottom:1.5rem;">Languages</div>
+        <div class="lang-item">
+          <span class="lang-name">English</span>
+          <div class="lang-track"><div class="lang-fill" data-width="90%"></div></div>
+          <span class="lang-level">Fluent</span>
+        </div>
+        <div class="lang-item">
+          <span class="lang-name">Hindi</span>
+          <div class="lang-track"><div class="lang-fill" data-width="100%"></div></div>
+          <span class="lang-level">Native</span>
+        </div>
+        <div class="lang-item">
+          <span class="lang-name">German</span>
+          <div class="lang-track"><div class="lang-fill" data-width="20%"></div></div>
+          <span class="lang-level">Learning</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="exp-container">
+    <div class="exp-header reveal">
+      <div class="section-label">Career Path</div>
+      <h2 class="section-title">Work <em>Experience</em></h2>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-meta">
+          <span class="timeline-date">Jul 2023 – Dec 2024</span>
+          <span class="timeline-company">Devtown · Bhopal</span>
+        </div>
+        <div class="timeline-role">Business Development Executive</div>
+        <ul class="timeline-points">
+          <li>Generated leads and promoted tech courses to students and professionals.</li>
+          <li>Built strong client relationships and supported marketing campaigns.</li>
+          <li>Collected client feedback to improve service offerings and user experience.</li>
+        </ul>
+        <div class="timeline-skills">
+          <span class="tskill">Sales</span>
+          <span class="tskill">Lead Generation</span>
+          <span class="tskill">Client Management</span>
+          <span class="tskill">Communication</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="timeline-meta">
+          <span class="timeline-date">Mar 2024 – Jun 2024</span>
+          <span class="timeline-company">SACC · Bhopal</span>
+        </div>
+        <div class="timeline-role">Management Intern</div>
+        <ul class="timeline-points">
+          <li>Assisted in daily operations, student enrollment, and marketing activities.</li>
+          <li>Supported administrative and coordination tasks.</li>
+          <li>Collaborated with faculty and management to enhance student engagement.</li>
+        </ul>
+        <div class="timeline-skills">
+          <span class="tskill">Teamwork</span>
+          <span class="tskill">Organization</span>
+          <span class="tskill">Marketing</span>
+          <span class="tskill">Time Management</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="proj-container">
+    <div class="reveal">
+      <div class="section-label">Work Showcase</div>
+      <h2 class="section-title">Featured <em>Projects</em></h2>
+    </div>
+
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="proj-num">01</div>
+        <div class="proj-icon">🏷️</div>
+        <div class="proj-title">Brand the Unbranded</div>
+        <div class="proj-tech">LPU · Live Business Project · Aug–Oct 2025</div>
+        <p class="proj-desc">
+          Conceptualized and executed a live business project aimed at branding and marketing an unbranded product. Managed end-to-end operations — product selection, pricing, promotion, and sales execution.
+        </p>
+        <div class="proj-highlight">
+          💰 Revenue ₹21,174 · Cost ₹17,553 · <strong>Net Profit ₹3,621</strong>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="proj-num">02</div>
+        <div class="proj-icon">🤖</div>
+        <div class="proj-title">Walmart Sales Forecasting</div>
+        <div class="proj-tech">Python · Pandas · Scikit-learn · Seaborn</div>
+        <p class="proj-desc">
+          Cleaned and structured a dataset of 45 Walmart stores (6,435 entries). Developed a Linear Regression model to predict weekly sales based on CPI, Unemployment, and Fuel Price. Evaluated with R-squared and MAE.
+        </p>
+        <div class="proj-highlight">
+          📊 Correlation analysis + trend visualization across economic indicators
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="proj-num">03</div>
+        <div class="proj-icon">📊</div>
+        <div class="proj-title">Interactive Business Dashboard</div>
+        <div class="proj-tech">Excel · Power Query · Pivot Tables · VBA</div>
+        <p class="proj-desc">
+          Built a dynamic sales dashboard analyzing 9,900+ retail records across regions. Automated KPI tracking with INDEX/MATCH, VLOOKUP, and Conditional Formatting. Conducted What-If Analysis using Goal Seek and Scenario Manager.
+        </p>
+        <div class="proj-highlight">
+          📈 Multi-year trend analysis + profit margin optimization modelling
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certifications">
+  <div class="cert-container">
+    <div class="reveal">
+      <div class="section-label">Credentials</div>
+      <h2 class="section-title">Certifications &amp; <em>Awards</em></h2>
+    </div>
+
+    <div class="cert-grid">
+      <div class="cert-card">
+        <div class="cert-badge">🏦</div>
+        <div>
+          <div class="cert-name">NISM Investor Awareness</div>
+          <div class="cert-meta">August 2025 · Financial Markets</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">🔍</div>
+        <div>
+          <div class="cert-name">Audit Diwas 2025 Quiz</div>
+          <div class="cert-meta">August 2025 · Governance & Audit</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">🇮🇳</div>
+        <div>
+          <div class="cert-name">Viksit Bharat Young Leader (VBYLD)</div>
+          <div class="cert-meta">Sep 2025 · My Bharat Initiative</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVITIES -->
+    <div style="margin-top:4rem;" class="reveal">
+      <div class="section-label">Activities</div>
+      <h3 style="font-family:'Playfair Display',serif;font-size:1.6rem;margin-bottom:2rem;">Co-Curricular <em>Highlights</em></h3>
+
+      <div class="cert-grid">
+        <div class="cert-card">
+          <div class="cert-badge">💹</div>
+          <div>
+            <div class="cert-name">Finance Workshop Lead</div>
+            <div class="cert-meta">Finance & Investment Club · Bhopal · 2023</div>
+          </div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-badge">🏛️</div>
+          <div>
+            <div class="cert-name">AIMA Student Management Games</div>
+            <div class="cert-meta">Society of Management Learning · LPU · Oct–Nov 2024</div>
+          </div>
+        </div>
+        <div class="cert-card">
+          <div class="cert-badge">🥊</div>
+          <div>
+            <div class="cert-name">LPU Boxing Championship Organiser</div>
+            <div class="cert-meta">Organizing Committee Member · Mar 2026</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="edu-container">
+    <div class="reveal">
+      <div class="section-label">Academic Background</div>
+      <h2 class="section-title">My <em>Education</em></h2>
+    </div>
+
+    <div class="edu-grid" style="margin-top:4rem;">
+      <div class="edu-card">
+        <div class="edu-degree">Post Graduate</div>
+        <div class="edu-title">Master of Business Administration</div>
+        <div class="edu-uni" style="color:var(--gold);opacity:0.9;">International Business</div>
+        <div class="edu-uni">Lovely Professional University, Phagwara, Punjab</div>
+        <div class="edu-year">Aug 2025 – May 2027 · Pursuing</div>
+        <span class="edu-tag">Currently Enrolled</span>
+      </div>
+
+      <div class="edu-card">
+        <div class="edu-degree">Under Graduate</div>
+        <div class="edu-title">Bachelor of Business Administration</div>
+        <div class="edu-uni" style="color:var(--gold);opacity:0.9;">Marketing</div>
+        <div class="edu-uni">LNCT University, Bhopal, Madhya Pradesh</div>
+        <div class="edu-year">Oct 2022 – Apr 2025 · Completed</div>
+        <span class="edu-tag">Graduated</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-container">
+    <div class="reveal">
+      <div class="section-label" style="justify-content:center;">Let's Connect</div>
+      <h2 class="section-title">Ready to <em>Collaborate?</em></h2>
+      <p style="margin-top:1.5rem;font-size:0.95rem;line-height:1.8;color:rgba(245,240,232,0.6);">
+        Open to opportunities in business development, international marketing, and strategic growth roles. Let's build something remarkable together.
+      </p>
+    </div>
+
+    <div class="contact-links">
+      <a href="mailto:gourpratham1724@gmail.com" class="contact-link">
+        <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+        gourpratham1724@gmail.com
+      </a>
+      <a href="tel:+919584167457" class="contact-link">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.04 1.18 2 2 0 012 .04h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        +91 9584167457
+      </a>
+      <a href="https://linkedin.com/in/Prathamgour" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        linkedin.com/in/Prathamgour
+      </a>
+    </div>
+
+    <a href="pratham_portfolio-2.html" download style="margin:0 auto;display:inline-flex;">
+  <button class="btn-primary">
+    <span>↓ Download Resume (PDF)</span>
+  </button>
+</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Pratham Gour. All rights reserved.</p>
+  <div class="footer-logo">PG</div>
+  <p>Designed with intention · Built with passion</p>
+</footer>
+
+<script>
+  // CURSOR
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx - 5 + 'px';
+    cursor.style.top = my - 5 + 'px';
+  });
+
+  function animRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx - 18 + 'px';
+    ring.style.top = ry - 18 + 'px';
+    requestAnimationFrame(animRing);
+  }
+  animRing();
+
+  document.querySelectorAll('a, button, .skill-tag, .photo-placeholder').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.style.transform = 'scale(1.6)');
+    el.addEventListener('mouseleave', () => ring.style.transform = 'scale(1)');
+  });
+
+  // PARTICLES
+  const pContainer = document.getElementById('particles');
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;--dur:${3+Math.random()*5}s;--delay:${Math.random()*6}s`;
+    pContainer.appendChild(p);
+  }
+
+  // SCROLL REVEAL
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        // Language bars
+        e.target.querySelectorAll && e.target.querySelectorAll('.lang-fill').forEach(bar => {
+          bar.style.width = bar.dataset.width;
+        });
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal, .timeline-item, .project-card, .cert-card, .edu-card').forEach(el => {
+    observer.observe(el);
+  });
+
+  // Also observe lang-fill parents
+  document.querySelectorAll('.about-right').forEach(el => observer.observe(el));
+
+  // Stagger project cards
+  document.querySelectorAll('.project-card').forEach((card, i) => {
+    card.style.transitionDelay = `${i * 0.12}s`;
+  });
+  document.querySelectorAll('.cert-card').forEach((card, i) => {
+    card.style.transitionDelay = `${i * 0.1}s`;
+  });
+  document.querySelectorAll('.timeline-item').forEach((item, i) => {
+    item.style.transitionDelay = `${i * 0.15}s`;
+  });
+
+  // PHOTO UPLOAD
+  document.getElementById('photoInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = document.getElementById('photoImg');
+      img.src = ev.target.result;
+      img.classList.add('loaded');
+      img.style.display = 'block';
+      document.querySelector('.photo-placeholder').style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // CV DOWNLOAD
+  function downloadCV() {
+    // Creates a text representation since we can't serve the original file
+    const cvText = `PRATHAM GOUR
+Email: gourpratham1724@gmail.com
+Mobile: +91-9584167457
+LinkedIn: linkedin.com/in/Prathamgour
+
+SUMMARY
+Business Development Executive and Marketing Strategist with experience in lead generation, team coordination, and operational management. Aspiring International Business Development Lead.
+
+INTERNSHIPS
+- Business Development Executive | Devtown | Jul 2023 – Dec 2024
+- Management Intern | SACC | Mar 2024 – Jun 2024
+
+PROJECTS
+- Brand the Unbranded | LPU (Profit: ₹3,621)
+- Walmart Sales Forecasting | Python / ML
+- Interactive Business Dashboard | Excel
+
+EDUCATION
+- MBA (International Business) | LPU | 2025–2027 (Pursuing)
+- BBA (Marketing) | LNCT University | 2022–2025
+
+SKILLS: Sales, CRM, Python, Excel, Machine Learning, Brand Management, Market Research`;
+
+    const blob = new Blob([cvText], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'Pratham_Gour_Resume.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+
+    // Show a message
+    const btn = event.currentTarget;
+    const orig = btn.innerHTML;
+    btn.innerHTML = '<span>✓ Downloaded!</span>';
+    setTimeout(() => btn.innerHTML = orig, 2000);
+  }
+
+  // Animate numbers on scroll
+  const statNums = document.querySelectorAll('.stat-num');
+  const numObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.animation = 'fadeUp 0.6s ease forwards';
+        numObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  statNums.forEach(n => numObserver.observe(n));
+</script>
+</body>
+</html>
